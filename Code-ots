@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void koboImaginaryChess(int i, int j, int size, int *chessBoard) {
+    // Inisialisasi semua nilai pada chessBoard dengan 0
+    for (int row = 0; row < size; row++) {
+        for (int col = 0; col < size; col++) {
+            *(chessBoard + row * size + col) = 0;
+        }
+    }
+
+    // Daftar langkah yang mungkin dilakukan oleh bidak kuda
+    int moves[8][2] = {{-2, -1}, {-2, 1}, {-1, -2}, {-1, 2},
+                       {1, -2}, {1, 2}, {2, -1}, {2, 1}};
+
+    // Memperbarui nilai chessBoard untuk setiap posisi yang mungkin dicapai
+    for (int k = 0; k < 8; k++) {
+        int newRow = i + moves[k][0];
+        int newCol = j + moves[k][1];
+
+        // Memeriksa apakah posisi baru valid
+        if (newRow >= 0 && newRow < size && newCol >= 0 && newCol < size) {
+            *(chessBoard + newRow * size + newCol) = 1;
+        }
+    }
+
+    // Mencetak hasil chessBoard
+    for (int row = 0; row < size; row++) {
+        for (int col = 0; col < size; col++) {
+            printf("%d", *(chessBoard + row * size + col));
+            if (col < size - 1) {
+                printf(" ");
+            }
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int i, j;
+    scanf("%d %d", &i, &j);
+
+    // Ukuran papan catur
+    int size = 8;
+
+    // Membuat array 2D untuk papan catur
+    int *chessBoard = (int *)malloc(size * size * sizeof(int));
+
+    // Memanggil fungsi untuk mensimulasikan gerakan kuda
+    koboImaginaryChess(i, j, size, chessBoard);
+
+    // Menghapus array yang dialokasikan secara dinamis
+    free(chessBoard);
+
+    return 0;
+}
